@@ -1,0 +1,11 @@
+node_modules          # Dependencies will be installed fresh via `pnpm install` inside the container
+.next                 # Local Next.js build cache, not needed since we run `pnpm build` in the container
+out                   # Local build output, not needed since it's generated inside the container
+.git                  # Git history is irrelevant for the build
+.gitignore            # Not needed for the build
+Dockerfile            # The Dockerfile itself doesn't need to be inside the container
+.dockerignore         # Not needed inside the container
+*.md                  # README and other markdown docs aren't needed for the build
+.env*.local           # Local environment files with secrets shouldn't be baked into the image
+.vscode               # Editor config
+.idea                 # Editor config
