@@ -10,6 +10,6 @@ build_image:
     before_script:
         - docker login -u $DockReg_username -p $DockReg_Pass
     script:
-        - docker build -t $DOKCER_IMAGENAME:$DOCKER_IMAGETAG .
-        - docker push $DOCKER_IMAGENAME:$DOKCER_IMAGETAG
+        - docker build -t $DOCKER_IMAGENAME:$DOCKER_IMAGETAG .
+        - docker push $DOCKER_IMAGENAME:$DOCKER_IMAGETAG
     
