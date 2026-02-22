@@ -18,3 +18,5 @@ COPY . .
 # Build the nextjs app. As a result /out directory will be created inside workdir. Only this directory will be passed on to the stage instead of all files from workdir.
 RUN pnpm build
 
+EXPOSE 3000
+CMD ["pnpm", "start"]
