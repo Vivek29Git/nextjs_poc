@@ -12,6 +12,15 @@ import { getStoredUser } from "@/lib/auth"
 import type { Order } from "@/lib/types"
 import { CheckCircle, Package, ArrowRight, Download } from "lucide-react"
 
+// Required for static export: tells Next.js which [id] pages to pre-generate at build time
+export function generateStaticParams() {
+  return [
+    { id: "1" }, { id: "2" }, { id: "3" }, { id: "4" },
+    { id: "5" }, { id: "6" }, { id: "7" }, { id: "8" },
+    { id: "9" }, { id: "10" }, { id: "11" }, { id: "12" },
+  ]
+}
+
 export default function OrderConfirmationPage({ params }: { params: { id: string } }) {
   const resolvedParams = params
   const [order, setOrder] = useState<Order | null>(null)
