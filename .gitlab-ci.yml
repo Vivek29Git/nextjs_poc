@@ -19,7 +19,7 @@ build_image:
         - docker push $DOCKER_IMAGENAME:$DOCKER_IMAGETAG
 deploy_k8s:
     stage: deploy
-    image: bitnami/kubectl:1.28 #Kubectl will be installed in runner to execute kube commands in runner to deploy app in cluster
+    image: bitnami/kubectl:latest #Kubectl will be installed in runner to execute kube commands in runner to deploy app in cluster
     needs: 
         - build_image # Just a dependency to make sure build stage is executed before deploy stage, as we need to push image in registry before deploying app in cluster
     before_script:
