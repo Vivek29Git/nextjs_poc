@@ -1,0 +1,23 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ypws-v1-deployment
+  labels:
+    app: ypws_v1
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ypws_v1
+  template:
+    metadata:
+      labels:
+        app: ypws_v1
+    spec:
+      containers:
+      - name: ypws-v1-container
+        image: vivek29git/gitlab_pipeline:ypws_v1
+        ports:
+        - containerPort: 3000
+      

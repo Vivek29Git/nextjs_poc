@@ -2,8 +2,12 @@
 variables:
     DOCKER_IMAGENAME: vivek29git/gitlab_pipeline
     DOCKER_IMAGETAG: ypws_v1
+stages
+    - build
+    - deploy
 build_image:
-    image: docker:29.2.1-cli
+    stage: build
+    image: docker:29.2.1-cli    
     services: 
         - docker:29.2.1-dind
     variables:
@@ -13,3 +17,14 @@ build_image:
     script:
         - docker build -t $DOCKER_IMAGENAME:$DOCKER_IMAGETAG .
         - docker push $DOCKER_IMAGENAME:$DOCKER_IMAGETAG
+deploy_k8s:
+    stage: deploy
+    image: bitnami/kubectl:1.28.0
+    needs: 
+        - build_image
+    before_script:
+        - echo "$KUBE_CONFIG_DATA" | base64 -d > /tmp/kubeconfig
+        - export KUBECONFIG=/tmp/kubeconfig
+    script:
+        - kubectl apply -f deployment.yml
+        - kubectl apply -f service.yml
