@@ -17,14 +17,18 @@ build_image:
     script:
         - docker build -t $DOCKER_IMAGENAME:$DOCKER_IMAGETAG .
         - docker push $DOCKER_IMAGENAME:$DOCKER_IMAGETAG
-deploy_k8s:
+deploy_app_k8s:
     stage: deploy
-    image: bitnami/kubectl:latest #Kubectl will be installed in runner to execute kube commands in runner to deploy app in cluster
+    image: alpine:latest
     needs: 
-        - build_image # Just a dependency to make sure build stage is executed before deploy stage, as we need to push image in registry before deploying app in cluster
+        - build_image
     before_script:
-        - echo "$KUBE_CONFIG_DATA" | base64 -d > /tmp/kubeconfig # Variable contains encrypted info of cluster data
-        - export KUBECONFIG=/tmp/kubeconfig # Used to connect to cluster from git runner, using the cluster info from above varible
+        - apk add --no-cache curl bash
+        - curl -LO "https://dl.k8s.io/release/$(curl -sL https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+        - chmod +x kubectl
+        - mv kubectl /usr/local/bin/
+        - echo "$KUBE_CONFIG_DATA" | base64 -d > /tmp/kubeconfig
+        - export KUBECONFIG=/tmp/kubeconfig
     script:
-        - kubectl apply -f deployment.yml # Once after connecting to cluster, kubctl in git runner will deploys the application
-        - kubectl apply -f service.yml # Service will be deplaoyed in cluster via runner and used to expose application running in pod to outside world
+        - kubectl apply -f deployment.yml
+        - kubectl apply -f service.yml
