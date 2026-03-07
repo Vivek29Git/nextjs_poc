@@ -2,7 +2,7 @@
 variables:
     DOCKER_IMAGENAME: vivek29git/gitlab_pipeline
     DOCKER_IMAGETAG: ypws_v1
-stages
+stages:
     - build
     - deploy
 build_image:
